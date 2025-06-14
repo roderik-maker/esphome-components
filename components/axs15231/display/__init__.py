@@ -28,9 +28,12 @@ from .. import axs15231_ns
 
 DEPENDENCIES = ["spi"]
 
+# AXS15231Component = axs15231_ns.class_(
+#     "AXS15231Display", display.Display, display.DisplayBuffer, cg.Component, spi.SPIDevice#spi.QuadSPIDevice
+# #spi.SPIDevice
+# )
 AXS15231Component = axs15231_ns.class_(
-    "AXS15231Display", display.Display, display.DisplayBuffer, cg.Component, spi.SPIDevice#spi.QuadSPIDevice
-#spi.SPIDevice
+    "AXS15231Display", display.Display, display.DisplayBuffer, cg.Component
 )
 
 DATA_PIN_SCHEMA = pins.gpio_pin_schema(
