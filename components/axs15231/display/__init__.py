@@ -97,20 +97,14 @@ CONFIG_SCHEMA = cv.All(
     cv.only_with_esp_idf,
 )
 
-
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await display.register_display(var, config)
 
-    # manually bypass the class check
-    from esphome.components.spi import get_spi_bus
-    
-    spi_bus = await get_spi_bus(config["spi_id"])
-    cg.add(var.set_spi_bus(spi_bus))
-    # await spi.register_spi_device(var, config, check_spi_class=False)
-    # await spi.register_spi_device(var, config)
+    await spi.register_spi_device(var, config, check_spi_class=False)
 
     cg.add(var.set_brightness(config[CONF_BRIGHTNESS]))
+
     if backlight_pin := config.get(CONF_BACKLIGHT_PIN):
         backlight = await cg.gpio_pin_expression(backlight_pin)
         cg.add(var.set_backlight_pin(backlight))
@@ -134,7 +128,7 @@ async def to_code(config):
                 )
             )
         else:
-            (width, height) = dimensions
+            width, height = dimensions
             cg.add(var.set_dimensions(width, height))
 
     if lamb := config.get(CONF_LAMBDA):
@@ -142,3 +136,50 @@ async def to_code(config):
             lamb, [(display.DisplayRef, "it")], return_type=cg.void
         )
         cg.add(var.set_writer(lambda_))
+
+# async def to_code(config):
+#     var = cg.new_Pvariable(config[CONF_ID])
+#     await display.register_display(var, config)
+
+#     # manually bypass the class check
+#     from esphome.components.spi import get_spi_bus
+    
+#     spi_bus = await get_spi_bus(config["spi_id"])
+#     cg.add(var.set_spi_bus(spi_bus))
+#     # await spi.register_spi_device(var, config, check_spi_class=False)
+#     # await spi.register_spi_device(var, config)
+#     await spi.register_spi_device(var, config, check_spi_class=False)
+
+
+#     cg.add(var.set_brightness(config[CONF_BRIGHTNESS]))
+#     if backlight_pin := config.get(CONF_BACKLIGHT_PIN):
+#         backlight = await cg.gpio_pin_expression(backlight_pin)
+#         cg.add(var.set_backlight_pin(backlight))
+
+#     if reset_pin := config.get(CONF_RESET_PIN):
+#         reset = await cg.gpio_pin_expression(reset_pin)
+#         cg.add(var.set_reset_pin(reset))
+
+#     if transform := config.get(CONF_TRANSFORM):
+#         cg.add(var.set_mirror_x(transform[CONF_MIRROR_X]))
+#         cg.add(var.set_mirror_y(transform[CONF_MIRROR_Y]))
+#         cg.add(var.set_swap_xy(transform[CONF_SWAP_XY]))
+
+#     if CONF_DIMENSIONS in config:
+#         dimensions = config[CONF_DIMENSIONS]
+#         if isinstance(dimensions, dict):
+#             cg.add(var.set_dimensions(dimensions[CONF_WIDTH], dimensions[CONF_HEIGHT]))
+#             cg.add(
+#                 var.set_offsets(
+#                     dimensions[CONF_OFFSET_WIDTH], dimensions[CONF_OFFSET_HEIGHT]
+#                 )
+#             )
+#         else:
+#             (width, height) = dimensions
+#             cg.add(var.set_dimensions(width, height))
+
+#     if lamb := config.get(CONF_LAMBDA):
+#         lambda_ = await cg.process_lambda(
+#             lamb, [(display.DisplayRef, "it")], return_type=cg.void
+#         )
+#         cg.add(var.set_writer(lambda_))
