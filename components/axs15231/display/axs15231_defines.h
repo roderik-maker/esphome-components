@@ -3,6 +3,10 @@
 #pragma once
 
 #include "esphome/core/helpers.h"
+#include "esphome/components/display/display_buffer.h"
+#include "esphome/core/component.h"
+#include "esphome/core/gpio.h"
+
 
 namespace esphome {
 namespace axs15231 {
@@ -65,15 +69,12 @@ static const uint8_t AXS_LCD_RDID2    = 0xDB; // Read ID2 (R)
 static const uint8_t AXS_LCD_RDID3    = 0xDC; // Read ID3 (R)
 static const uint8_t AXS_LCD_DSTB     = 0x90; // Enter Deep-Standby (W)
 
-}  // namespace axs15231
-}  // namespace esphome
+// }  // namespace axs15231
+// }  // namespace esphome
 
-#include "esphome/components/display/display_buffer.h"
-#include "esphome/core/component.h"
-#include "esphome/core/gpio.h"
 
-namespace esphome {
-namespace axs15231 {
+// namespace esphome {
+// namespace axs15231 {
 
 class AXS15231Display : public display::DisplayBuffer, public Component {
  public:
