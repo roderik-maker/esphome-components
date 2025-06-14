@@ -1,16 +1,26 @@
 
 
+// #pragma once
+
+// #include "esphome/core/helpers.h"
+// #include "esphome/components/display/display_buffer.h"
+// #include "esphome/core/component.h"
+// #include "esphome/core/gpio.h"
+
+
+// namespace esphome {
+// namespace axs15231 {
 #pragma once
 
-#include "esphome/core/helpers.h"
 #include "esphome/components/display/display_buffer.h"
 #include "esphome/core/component.h"
 #include "esphome/core/gpio.h"
-
+#include "esphome/core/helpers.h"
 
 namespace esphome {
 namespace axs15231 {
 
+// ─── Constants ──────────────────────────────────────────────────────────────
 static const uint8_t MADCTL_MY  = 0x80;   ///< Bit 7 Bottom to top
 static const uint8_t MADCTL_MX  = 0x40;   ///< Bit 6 Right to left
 static const uint8_t MADCTL_MV  = 0x20;   ///< Bit 5 Reverse Mode
@@ -69,13 +79,7 @@ static const uint8_t AXS_LCD_RDID2    = 0xDB; // Read ID2 (R)
 static const uint8_t AXS_LCD_RDID3    = 0xDC; // Read ID3 (R)
 static const uint8_t AXS_LCD_DSTB     = 0x90; // Enter Deep-Standby (W)
 
-// }  // namespace axs15231
-// }  // namespace esphome
-
-
-// namespace esphome {
-// namespace axs15231 {
-
+// ─── Class Declaration ──────────────────────────────────────────────────────
 class AXS15231Display : public display::DisplayBuffer, public Component {
  public:
   float get_setup_priority() const override;
@@ -123,3 +127,62 @@ class AXS15231Display : public display::DisplayBuffer, public Component {
   bool mirror_x_{false}, mirror_y_{false}, swap_xy_{false};
   uint8_t brightness_{0xD0};
 };
+
+}  // namespace axs15231
+}  // namespace esphome
+
+
+// // }  // namespace axs15231
+// // }  // namespace esphome
+
+
+// // namespace esphome {
+// // namespace axs15231 {
+
+// class AXS15231Display : public display::DisplayBuffer, public Component {
+//  public:
+//   float get_setup_priority() const override;
+//   void setup() override;
+//   bool can_proceed() override;
+//   void dump_config() override;
+
+//   void fill(Color color) override;
+//   display::DisplayType get_display_type() override;
+//   int get_width_internal() override;
+//   int get_height_internal() override;
+
+//   void draw_absolute_pixel_internal(int x, int y, Color color) override;
+//   void draw_pixels_at(int x, int y, const uint8_t *data,
+//                       display::ColorBitness bitness, bool big_endian,
+//                       int x_offset, int y_offset, int x_pad) override;
+
+//   void set_reset_pin(GPIOPin *reset_pin);
+//   void set_backlight_pin(GPIOPin *backlight_pin);
+//   void set_dimensions(uint16_t width, uint16_t height);
+//   void set_offsets(int16_t offset_x, int16_t offset_y);
+//   void set_mirror_x(bool mirror_x);
+//   void set_mirror_y(bool mirror_y);
+//   void set_swap_xy(bool swap_xy);
+//   void set_brightness(uint8_t brightness);
+
+//  protected:
+//   void setup_pins_();
+//   void setup_madctl_();
+//   void init_lcd_();
+//   void reset_();
+
+//   void write_command_(uint8_t cmd);
+//   void write_command_(uint8_t cmd, uint8_t data);
+//   void write_command_(uint8_t cmd, const uint8_t *bytes, size_t len);
+//   void set_addr_window_(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
+//   void write_to_display_(int x_start, int y_start, int w, int h,
+//                          const uint8_t *ptr, int x_offset, int y_offset, int x_pad);
+//   void invalidate_();
+
+//   uint16_t width_{0}, height_{0};
+//   int16_t offset_x_{0}, offset_y_{0};
+//   GPIOPin *reset_pin_{nullptr};
+//   GPIOPin *backlight_pin_{nullptr};
+//   bool mirror_x_{false}, mirror_y_{false}, swap_xy_{false};
+//   uint8_t brightness_{0xD0};
+// };
