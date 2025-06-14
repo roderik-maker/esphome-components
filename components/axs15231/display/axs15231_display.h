@@ -11,8 +11,10 @@ namespace esphome {
 namespace axs15231 {
 
 class AXS15231Display : public display::DisplayBuffer,
-                        public spi::SPIDevice<spi::BIT_ORDER_MSB_FIRST, spi::CLOCK_POLARITY_LOW,
-                                              spi::CLOCK_PHASE_LEADING, spi::DATA_RATE_20MHZ> {
+                        public spi::QuadSPIDevice
+
+                        // public spi::SPIDevice<spi::BIT_ORDER_MSB_FIRST, spi::CLOCK_POLARITY_LOW,
+                        //                       spi::CLOCK_PHASE_LEADING, spi::DATA_RATE_20MHZ> {
  public:
   void update() override;
 
