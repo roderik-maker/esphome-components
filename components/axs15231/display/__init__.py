@@ -72,14 +72,25 @@ CONFIG_SCHEMA = cv.All(
                     0, 0xFF, min_included=True, max_included=True
                 ),
             }
+        # ).extend(
+        #     spi.spi_device_schema(
+        #         cs_pin_required=False,
+        #         default_mode="MODE0",
+        #         default_data_rate=20e6,
+        #         # quad=True,
+        #     )
+        # )
         ).extend(
-            spi.spi_device_schema(
-                cs_pin_required=False,
-                default_mode="MODE0",
-                default_data_rate=20e6,
-                # quad=True,
-            )
+            {
+                cv.Required("spi_id"): cv.use_id(spi.SPIBus),
+                cv.Optional("cs_pin"): pins.gpio_output_pin_schema,
+                cv.Optional("data_rate", default=20e6): cv.frequency,
+                cv.Optional("spi_mode", default="MODE0"): cv.one_of(
+                    "MODE0", "MODE1", "MODE2", "MODE3", upper=True
+                ),
+            }
         )
+
     ),
     cv.only_with_esp_idf,
 )
