@@ -101,7 +101,9 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await display.register_display(var, config)
 
-    await spi.register_spi_device(var, config, check_spi_class=False)
+    # await spi.register_spi_device(var, config, check_spi_class=False)
+    await spi.register_spi_device(var, config)
+
 
     cg.add(var.set_brightness(config[CONF_BRIGHTNESS]))
 
