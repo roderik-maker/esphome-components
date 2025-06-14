@@ -82,7 +82,7 @@ CONFIG_SCHEMA = cv.All(
         # )
         ).extend(
             {
-                cv.Required("spi_id"): cv.use_id(spi.SPIBus),
+                cv.Required("spi_id"): cv.use_id(spi.SPIComponent) #cv.use_id(spi.SPIBus),
                 cv.Optional("cs_pin"): pins.gpio_output_pin_schema,
                 cv.Optional("data_rate", default=20e6): cv.frequency,
                 cv.Optional("spi_mode", default="MODE0"): cv.one_of(
